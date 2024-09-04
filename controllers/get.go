@@ -39,7 +39,7 @@ func AmbilHandler(w http.ResponseWriter, r *http.Request) {
 			NamaLengkap:   p.NamaLengkap,
 			Email:         p.Email,
 			NoTelp:        p.NoTelp,
-			BuktiTransfer: "http://localhost:5000/static/" + p.BuktiTransfer,
+			BuktiTransfer: "https://pendaftaran-coc-api-production.up.railway.app/static/" + p.BuktiTransfer,
 		}
 	}
 
