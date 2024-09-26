@@ -18,6 +18,7 @@ type Response struct {
 
 func AmbilHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
+
 	nama := vars["nama"]
 	kunci := vars["kunci"]
 
@@ -25,9 +26,19 @@ func AmbilHandler(w http.ResponseWriter, r *http.Request) {
 	k := os.Getenv("APP_KUNCI")
 
 	if nama != n || kunci != k {
-		http.Error(w, `{"message":"Tidak memiliki akses!"}`, http.StatusUnauthorized)
+		response := Response{
+			Message: "Anda tidak memiliki akses!",
+		}
+		jsonData, err := json.MarshalIndent(response, "", "    ")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonData)
 		return
-	} else {	
+	} else {
 		var pendaftar []models.Pendaftar
 		config.DB.Find(&pendaftar)
 	
