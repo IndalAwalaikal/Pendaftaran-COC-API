@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/julienschmidt/httprouter"
 	"github.com/syrlramadhan/pendaftaran-coc/config"
 	"github.com/syrlramadhan/pendaftaran-coc/controller"
@@ -13,6 +14,10 @@ import (
 )
 
 func main() {
+	errEnv := godotenv.Load()
+	if errEnv != nil {
+		panic(errEnv)
+	}
 	appPort := os.Getenv("APP_PORT")
 	fmt.Println("listened and serve to port", appPort)
 
