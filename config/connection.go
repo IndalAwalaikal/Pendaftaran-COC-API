@@ -3,7 +3,7 @@ package config
 import (
 	"database/sql"
 	"fmt"
-	"time"
+	// "time"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -19,9 +19,9 @@ func ConnectToDatabase() (*sql.DB, error) {
 		return nil, fmt.Errorf("an error occurred while connecting to the database: %v", err)
 	}
 
-	db.SetConnMaxLifetime(time.Minute * 3)
-	db.SetMaxOpenConns(10)
-	db.SetMaxIdleConns(10)
+	// db.SetConnMaxLifetime(time.Minute * 3)
+	// db.SetMaxOpenConns(10)
+	// db.SetMaxIdleConns(10)
 
 	return db, nil
 }
