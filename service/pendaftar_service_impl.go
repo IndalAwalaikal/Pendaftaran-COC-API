@@ -9,7 +9,6 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/google/uuid"
-	"github.com/joho/godotenv"
 	"github.com/syrlramadhan/pendaftaran-coc/dto"
 	"github.com/syrlramadhan/pendaftaran-coc/model"
 	"github.com/syrlramadhan/pendaftaran-coc/repository"
@@ -85,10 +84,6 @@ func (p *PendaftarServiceImpl) GenerateJWT(username string) (string, error) {
 }
 
 func (p *PendaftarServiceImpl) LoginAdmin(ctx context.Context, adminRequest dto.AdminRequest) (string, error) {
-	errEnv := godotenv.Load()
-	if errEnv != nil {
-		panic(errEnv)
-	}
 	userAdmin := os.Getenv("USER_ADMIN")
 	passAdmin := os.Getenv("PASS_ADMIN")
 	tx, err := p.DB.Begin()
