@@ -9,7 +9,7 @@ import (
 )
 
 func ConnectToDatabase() (*sql.DB, error) {
-	db, err := sql.Open("mysql", "root:UifqcJmZwDDtLOnOSGZJCkwhjiXVvvAZ@tcp(mysql.railway.internal:3306)/railway")
+	db, err := sql.Open("mysql", "root:aFspvHXqVrnmlnPhYGfNuxTfLiDpGXpk@tcp(mysql.railway.internal:3306)/railway")
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to database: %v", err)
 	}
