@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql"
+	_ "modernc.org/sqlite"
 )
 
 func ConnectToDatabase() (*sql.DB, error) {
-	db, err := sql.Open("mysql", "root:aFspvHXqVrnmlnPhYGfNuxTfLiDpGXpk@tcp(mysql.railway.internal:3306)/railway")
+	db, err := sql.Open("sqlite", "./pendaftar.db")
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to database: %v", err)
 	}
