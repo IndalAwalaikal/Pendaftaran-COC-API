@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/julienschmidt/httprouter"
+	// "github.com/joho/godotenv"
 	"github.com/syrlramadhan/pendaftaran-coc/config"
 	"github.com/syrlramadhan/pendaftaran-coc/controller"
 	"github.com/syrlramadhan/pendaftaran-coc/repository"
@@ -13,6 +14,10 @@ import (
 )
 
 func main() {
+	// errEnv := godotenv.Load()
+	// if errEnv != nil {
+	// 	panic(errEnv)
+	// }
 	appPort := os.Getenv("APP_PORT")
 	fmt.Println("listened and serve to port", appPort)
 
@@ -39,6 +44,9 @@ func main() {
 	//serve file
 	router.ServeFiles("/api/pendaftar/uploads/*filepath", http.Dir("uploads"))
 
+	//download db
+	router.ServeFiles("/api/pendaftar/database/*filepath", http.Dir("database"))
+
 	handler := corsMiddleware(router)
 
 	server := http.Server{
@@ -54,7 +62,7 @@ func main() {
 
 func corsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "https://coconutopenclass.vercel.app")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 
