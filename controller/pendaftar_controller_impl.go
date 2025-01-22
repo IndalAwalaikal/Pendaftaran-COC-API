@@ -60,7 +60,7 @@ func (p *PendaftarControllerImpl) CreatePendaftar(writter http.ResponseWriter, r
 	pendaftarRequest := dto.PendaftarRequest{}
 	err := request.ParseMultipartForm(10 << 20)
 	if err != nil {
-		http.Error(writter, "Unable to parse form", http.StatusBadRequest)
+		writeJSONError(writter, http.StatusBadRequest, "unable to parse form")
 		return
 	}
 	pendaftarRequest = dto.PendaftarRequest{
@@ -101,7 +101,7 @@ func (p *PendaftarControllerImpl) CreatePendaftar(writter http.ResponseWriter, r
 
 	response := dto.ResponseList{
 		Code:    http.StatusOK,
-		Message: "success to add pendaftar",
+		Message: "registration successful",
 		Data:    responseDTO,
 	}
 
@@ -124,13 +124,13 @@ func (p *PendaftarControllerImpl) LoginAdmin(w http.ResponseWriter, r *http.Requ
 
 	err := json.NewDecoder(r.Body).Decode(&adminRequest)
 	if err != nil {
-		http.Error(w, "Invalid input", http.StatusBadRequest)
+		writeJSONError(w, http.StatusBadRequest, "invalid input")
 		return
 	}
 
 	token, err := p.PendaftarService.LoginAdmin(r.Context(), adminRequest)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusUnauthorized)
+		writeJSONError(w, http.StatusUnauthorized, err.Error())
 		return
 	}
 
