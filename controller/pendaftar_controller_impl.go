@@ -67,9 +67,8 @@ func (p *PendaftarControllerImpl) CreatePendaftar(writter http.ResponseWriter, r
 		NamaLengkap: request.FormValue("nama-lengkap"),
 		Email: request.FormValue("email"),
 		NoTelp: request.FormValue("no-telp"),
-		Framework: request.FormValue("framework"),
 	}
-	file, handler, err := request.FormFile("bukti-transfer")
+	file, handler, err := request.FormFile("bukti-follow")
 	if err != nil {
 		writeJSONError(writter, http.StatusBadRequest, "failed to read file")
 		return
@@ -95,7 +94,7 @@ func (p *PendaftarControllerImpl) CreatePendaftar(writter http.ResponseWriter, r
 		panic(err)
 	}
 
-	pendaftarRequest.BuktiTransfer = handler.Filename
+	pendaftarRequest.BuktiFollow = handler.Filename
 
 	responseDTO := p.PendaftarService.CreatePendaftar(request.Context(), pendaftarRequest)
 

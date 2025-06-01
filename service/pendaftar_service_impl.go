@@ -41,12 +41,11 @@ func (p *PendaftarServiceImpl) CreatePendaftar(ctx context.Context, pendaftarReq
 	validation.ValidateIfEmailExist(ctx, tx, p.PendaftarRepository, pendaftarRequest.Email)
 
 	pendaftar := model.Pendaftar{
-		Id:            uuid.New().String(),
-		NamaLengkap:   pendaftarRequest.NamaLengkap,
-		Email:         pendaftarRequest.Email,
-		NoTelp:        pendaftarRequest.NoTelp,
-		BuktiTransfer: pendaftarRequest.BuktiTransfer,
-		Framework:     pendaftarRequest.Framework,
+		Id:          uuid.New().String(),
+		NamaLengkap: pendaftarRequest.NamaLengkap,
+		Email:       pendaftarRequest.Email,
+		NoTelp:      pendaftarRequest.NoTelp,
+		BuktiFollow: pendaftarRequest.BuktiFollow,
 	}
 
 	validation.ValidateIfNull(pendaftar)

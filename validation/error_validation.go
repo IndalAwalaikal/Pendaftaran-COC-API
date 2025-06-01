@@ -17,7 +17,7 @@ func ValidateIfEmailExist(ctx context.Context, tx *sql.Tx, repo repository.Penda
 }
 
 func ValidateIfNull(pendaftar model.Pendaftar) {
-	if pendaftar.NamaLengkap == "" || pendaftar.NoTelp == "" || pendaftar.Email == "" || pendaftar.Framework == "" {
+	if pendaftar.NamaLengkap == "" || pendaftar.NoTelp == "" || pendaftar.Email == "" {
 		panic(exception.NewBadRequestHandler("input cannot be empty"))
 	}
 }

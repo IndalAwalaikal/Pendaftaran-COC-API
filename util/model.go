@@ -11,8 +11,7 @@ func ToPendaftarResponse(pendaftar model.Pendaftar) dto.PendaftarResponse {
 		NamaLengkap:   pendaftar.NamaLengkap,
 		Email:         pendaftar.Email,
 		NoTelp:        pendaftar.NoTelp,
-		BuktiTransfer: pendaftar.BuktiTransfer,
-		Framework:     pendaftar.Framework,
+		BuktiFollow: pendaftar.BuktiFollow,
 	}
 }
 
