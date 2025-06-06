@@ -16,9 +16,9 @@ func NewPendaftarRepository() PendaftarRepository {
 }
 
 func (p *PendaftarRepositoryImpl) CreatePendaftar(ctx context.Context, tx *sql.Tx, pendaftar model.Pendaftar) (model.Pendaftar, error) {
-	query := `INSERT INTO pendaftars (id, nama_lengkap, email, no_telp, bukti_follow) VALUES(?, ?, ?, ?, ?)`
+	query := `INSERT INTO pendaftars (id, nama_lengkap, email, no_telp, bukti_follow, asal_sekolah, punya_laptop) VALUES(?, ?, ?, ?, ?, ?, ?)`
 
-	_, err := tx.ExecContext(ctx, query, pendaftar.Id, pendaftar.NamaLengkap, pendaftar.Email, pendaftar.NoTelp, pendaftar.BuktiFollow)
+	_, err := tx.ExecContext(ctx, query, pendaftar.Id, pendaftar.NamaLengkap, pendaftar.Email, pendaftar.NoTelp, pendaftar.BuktiFollow, pendaftar.AsalSekolah, pendaftar.PunyaLaptop)
 	if err != nil {
 		return pendaftar, fmt.Errorf("failed while entering data: %v", err)
 	}
@@ -27,7 +27,7 @@ func (p *PendaftarRepositoryImpl) CreatePendaftar(ctx context.Context, tx *sql.T
 }
 
 func (p *PendaftarRepositoryImpl) ReadPendaftar(ctx context.Context, tx *sql.Tx) []model.Pendaftar {
-	query := `SELECT id, nama_lengkap, email, no_telp, bukti_follow FROM pendaftars`
+	query := `SELECT id, nama_lengkap, email, no_telp, bukti_follow, asal_sekolah, punya_laptop FROM pendaftars`
 
 	rows, err := tx.QueryContext(ctx, query)
 	if err != nil {
@@ -37,7 +37,7 @@ func (p *PendaftarRepositoryImpl) ReadPendaftar(ctx context.Context, tx *sql.Tx)
 	var pendaftars []model.Pendaftar
 	for rows.Next() {
 		pendaftar := model.Pendaftar{}
-		err := rows.Scan(&pendaftar.Id, &pendaftar.NamaLengkap, &pendaftar.Email, &pendaftar.NoTelp, &pendaftar.BuktiFollow)
+		err := rows.Scan(&pendaftar.Id, &pendaftar.NamaLengkap, &pendaftar.Email, &pendaftar.NoTelp, &pendaftar.BuktiFollow, &pendaftar.AsalSekolah, &pendaftar.PunyaLaptop)
 		if err != nil {
 			panic(err)
 		}

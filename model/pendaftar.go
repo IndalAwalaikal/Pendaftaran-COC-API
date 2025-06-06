@@ -6,4 +6,6 @@ type Pendaftar struct {
 	Email       string
 	NoTelp      string
 	BuktiFollow string
+	AsalSekolah string
+	PunyaLaptop string
 }

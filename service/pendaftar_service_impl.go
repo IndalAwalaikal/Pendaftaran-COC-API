@@ -46,6 +46,8 @@ func (p *PendaftarServiceImpl) CreatePendaftar(ctx context.Context, pendaftarReq
 		Email:       pendaftarRequest.Email,
 		NoTelp:      pendaftarRequest.NoTelp,
 		BuktiFollow: pendaftarRequest.BuktiFollow,
+		AsalSekolah: pendaftarRequest.AsalSekolah,
+		PunyaLaptop: pendaftarRequest.PunyaLaptop,
 	}
 
 	validation.ValidateIfNull(pendaftar)

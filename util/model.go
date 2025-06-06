@@ -7,11 +7,13 @@ import (
 
 func ToPendaftarResponse(pendaftar model.Pendaftar) dto.PendaftarResponse {
 	return dto.PendaftarResponse{
-		Id:            pendaftar.Id,
-		NamaLengkap:   pendaftar.NamaLengkap,
-		Email:         pendaftar.Email,
-		NoTelp:        pendaftar.NoTelp,
+		Id:          pendaftar.Id,
+		NamaLengkap: pendaftar.NamaLengkap,
+		Email:       pendaftar.Email,
+		NoTelp:      pendaftar.NoTelp,
 		BuktiFollow: pendaftar.BuktiFollow,
+		AsalSekolah: pendaftar.AsalSekolah,
+		PunyaLaptop: pendaftar.PunyaLaptop,
 	}
 }
 

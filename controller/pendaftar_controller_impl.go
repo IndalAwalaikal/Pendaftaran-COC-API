@@ -67,6 +67,8 @@ func (p *PendaftarControllerImpl) CreatePendaftar(writter http.ResponseWriter, r
 		NamaLengkap: request.FormValue("nama-lengkap"),
 		Email: request.FormValue("email"),
 		NoTelp: request.FormValue("no-telp"),
+		AsalSekolah: request.FormValue("asal-sekolah"),
+		PunyaLaptop: request.FormValue("punya-laptop"),
 	}
 	file, handler, err := request.FormFile("bukti-follow")
 	if err != nil {
