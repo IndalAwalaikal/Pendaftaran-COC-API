@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -57,19 +56,23 @@ func (p *PendaftarControllerImpl) CreatePendaftar(writter http.ResponseWriter, r
 		}
 	}()
 
-	pendaftarRequest := dto.PendaftarRequest{}
+	// --- Parse form ---
 	err := request.ParseMultipartForm(10 << 20)
 	if err != nil {
 		writeJSONError(writter, http.StatusBadRequest, "unable to parse form")
 		return
 	}
-	pendaftarRequest = dto.PendaftarRequest{
+
+	// --- Ambil data form ---
+	pendaftarRequest := dto.PendaftarRequest{
 		NamaLengkap: request.FormValue("nama-lengkap"),
-		Email: request.FormValue("email"),
-		NoTelp: request.FormValue("no-telp"),
+		Email:       request.FormValue("email"),
+		NoTelp:      request.FormValue("no-telp"),
 		AsalSekolah: request.FormValue("asal-sekolah"),
 		PunyaLaptop: request.FormValue("punya-laptop"),
 	}
+
+	// --- Ambil file ---
 	file, handler, err := request.FormFile("bukti-follow")
 	if err != nil {
 		writeJSONError(writter, http.StatusBadRequest, "failed to read file")
@@ -77,8 +80,10 @@ func (p *PendaftarControllerImpl) CreatePendaftar(writter http.ResponseWriter, r
 	}
 	defer file.Close()
 
-	fileName := fmt.Sprintf("%s.jpeg", pendaftarRequest.Email)
+	fileName := pendaftarRequest.Email + ".jpeg"
 	handler.Filename = fileName
+
+	// --- Simpan file ---
 	uploadDir := "./uploads"
 	if _, err := os.Stat(uploadDir); os.IsNotExist(err) {
 		os.Mkdir(uploadDir, os.ModePerm)
@@ -87,25 +92,28 @@ func (p *PendaftarControllerImpl) CreatePendaftar(writter http.ResponseWriter, r
 	filePath := filepath.Join(uploadDir, handler.Filename)
 	out, err := os.Create(filePath)
 	if err != nil {
-		panic(err)
+		writeJSONError(writter, http.StatusInternalServerError, "gagal menyimpan file: "+err.Error())
+		return
 	}
 	defer out.Close()
 
 	_, err = io.Copy(out, file)
 	if err != nil {
-		panic(err)
+		writeJSONError(writter, http.StatusInternalServerError, "gagal memproses file: "+err.Error())
+		return
 	}
 
 	pendaftarRequest.BuktiFollow = handler.Filename
 
+	// --- Simpan ke DB ---
 	responseDTO := p.PendaftarService.CreatePendaftar(request.Context(), pendaftarRequest)
 
+	// --- Response sukses ---
 	response := dto.ResponseList{
 		Code:    http.StatusOK,
 		Message: "registration successful",
 		Data:    responseDTO,
 	}
-
 	util.WriteToResponseBody(writter, response)
 }
 
@@ -142,6 +150,6 @@ func (p *PendaftarControllerImpl) LoginAdmin(w http.ResponseWriter, r *http.Requ
 		Message: "token generate successfully",
 	}
 
-	w.Header().Set("Content-.Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 	util.WriteToResponseBody(w, response)
 }
